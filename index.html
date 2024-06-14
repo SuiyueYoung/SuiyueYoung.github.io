@@ -99,203 +99,563 @@
 <h2 id="译码设计"><a href="#译码设计" class="headerlink" title="译码设计"></a>译码设计</h2><table>
 <thead>
 <tr>
-<th>SEQUENCE</th>
-<th>COMMAND</th>
-<th>TYPE[7 : 6]</th>
-<th>OP[5 : 2]</th>
-<th>REVERSE[1]</th>
-<th>REVERSE[0]</th>
-<th></th>
-<th>HEX</th>
-<th>FUCTION</th>
+<th align="center">SEQUENCE</th>
+<th align="center">COMMAND</th>
+<th align="center">TYPE[7:6]</th>
+<th align="center">OP[5:2]</th>
+<th align="center">REVERSE[1]</th>
+<th align="center">REVERSE[0]</th>
+<th align="center">HEX</th>
+<th align="center">FUNCTION</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>0</td>
-<td>NOP</td>
-<td>00</td>
-<td>0000</td>
-<td>0</td>
-<td>0</td>
-<td></td>
-<td>00</td>
-<td>空操作</td>
+<td align="center">0</td>
+<td align="center">NOP</td>
+<td align="center">00</td>
+<td align="center">0000</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">00</td>
+<td align="center">空操作</td>
 </tr>
 <tr>
-<td>1</td>
-<td>MOVAC</td>
-<td>01</td>
-<td>0000</td>
-<td>0</td>
-<td>0</td>
-<td></td>
-<td>40</td>
-<td>R &lt;- AC</td>
+<td align="center">1</td>
+<td align="center">MOVAC</td>
+<td align="center">01</td>
+<td align="center">0000</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">40</td>
+<td align="center">R &lt;- AC</td>
 </tr>
 <tr>
-<td>2</td>
-<td>MOVR</td>
-<td>01</td>
-<td>0001</td>
-<td>1</td>
-<td>0</td>
-<td></td>
-<td>46</td>
-<td>AC &lt;- R</td>
+<td align="center">2</td>
+<td align="center">MOVR</td>
+<td align="center">01</td>
+<td align="center">0001</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">46</td>
+<td align="center">AC &lt;- R</td>
 </tr>
 <tr>
-<td>3</td>
-<td>ADD</td>
-<td>01</td>
-<td>0010</td>
-<td>1</td>
-<td>0</td>
-<td></td>
-<td>4A</td>
-<td>AC &lt;- AC + R</td>
+<td align="center">3</td>
+<td align="center">ADD</td>
+<td align="center">01</td>
+<td align="center">0010</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">4A</td>
+<td align="center">AC &lt;- AC + R</td>
 </tr>
 <tr>
-<td>4</td>
-<td>SUB</td>
-<td>01</td>
-<td>0011</td>
-<td>1</td>
-<td>0</td>
-<td></td>
-<td>4E</td>
-<td>AC &lt;- AC - R</td>
+<td align="center">4</td>
+<td align="center">SUB</td>
+<td align="center">01</td>
+<td align="center">0011</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">4E</td>
+<td align="center">AC &lt;- AC - R</td>
 </tr>
 <tr>
-<td>5</td>
-<td>INAC</td>
-<td>01</td>
-<td>0100</td>
-<td>1</td>
-<td>0</td>
-<td></td>
-<td>52</td>
-<td>AC &lt;- AC + 1</td>
+<td align="center">5</td>
+<td align="center">INAC</td>
+<td align="center">01</td>
+<td align="center">0100</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">52</td>
+<td align="center">AC &lt;- AC + 1</td>
 </tr>
 <tr>
-<td>6</td>
-<td>CLAC</td>
-<td>01</td>
-<td>0101</td>
-<td>1</td>
-<td>0</td>
-<td></td>
-<td>56</td>
-<td>AC &lt;- 0</td>
+<td align="center">6</td>
+<td align="center">CLAC</td>
+<td align="center">01</td>
+<td align="center">0101</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">56</td>
+<td align="center">AC &lt;- 0</td>
 </tr>
 <tr>
-<td>7</td>
-<td>AND</td>
-<td>01</td>
-<td>0110</td>
-<td>1</td>
-<td>0</td>
-<td></td>
-<td>5A</td>
-<td>AC &lt;- AC and R</td>
+<td align="center">7</td>
+<td align="center">AND</td>
+<td align="center">01</td>
+<td align="center">0110</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">5A</td>
+<td align="center">AC &lt;- AC and R</td>
 </tr>
 <tr>
-<td>8</td>
-<td>OR</td>
-<td>01</td>
-<td>0111</td>
-<td>1</td>
-<td>0</td>
-<td></td>
-<td>5E</td>
-<td>AC &lt;- AC or R</td>
+<td align="center">8</td>
+<td align="center">OR</td>
+<td align="center">01</td>
+<td align="center">0111</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">5E</td>
+<td align="center">AC &lt;- AC or R</td>
 </tr>
 <tr>
-<td>9</td>
-<td>XOR</td>
-<td>01</td>
-<td>1000</td>
-<td>1</td>
-<td>0</td>
-<td></td>
-<td>62</td>
-<td>AC &lt;- AC xor R</td>
+<td align="center">9</td>
+<td align="center">XOR</td>
+<td align="center">01</td>
+<td align="center">1000</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">62</td>
+<td align="center">AC &lt;- AC xor R</td>
 </tr>
 <tr>
-<td>10</td>
-<td>NOT</td>
-<td>01</td>
-<td>1001</td>
-<td>1</td>
-<td>0</td>
-<td></td>
-<td>66</td>
-<td>AC &lt;- not AC</td>
+<td align="center">10</td>
+<td align="center">NOT</td>
+<td align="center">01</td>
+<td align="center">1001</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">66</td>
+<td align="center">AC &lt;- not AC</td>
 </tr>
 <tr>
-<td>11</td>
-<td>LDAC</td>
-<td>10</td>
-<td>0000</td>
-<td>1</td>
-<td>0</td>
-<td></td>
-<td>82</td>
-<td>AC &lt;- M[AR]</td>
+<td align="center">11</td>
+<td align="center">LDAC</td>
+<td align="center">10</td>
+<td align="center">0000</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">82</td>
+<td align="center">AC &lt;- M[AR]</td>
 </tr>
 <tr>
-<td>12</td>
-<td>STAC</td>
-<td>10</td>
-<td>0001</td>
-<td>0</td>
-<td>0</td>
-<td></td>
-<td>84</td>
-<td>M[AR] &lt;- AC</td>
+<td align="center">12</td>
+<td align="center">STAC</td>
+<td align="center">10</td>
+<td align="center">0001</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">84</td>
+<td align="center">M[AR] &lt;- AC</td>
 </tr>
 <tr>
-<td>13</td>
-<td>MOVT</td>
-<td>10</td>
-<td>0010</td>
-<td>0</td>
-<td>0</td>
-<td></td>
-<td>88</td>
-<td>AR &lt;- AC &lt;&lt; 8 + R</td>
+<td align="center">13</td>
+<td align="center">MOVT</td>
+<td align="center">10</td>
+<td align="center">0010</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">88</td>
+<td align="center">AR &lt;- AC &lt;&lt; 8 + R</td>
 </tr>
 <tr>
-<td>14</td>
-<td>JUMP</td>
-<td>11</td>
-<td>0000</td>
-<td>0</td>
-<td>0</td>
-<td></td>
-<td>C0</td>
-<td>GOTO AR</td>
+<td align="center">14</td>
+<td align="center">JUMP</td>
+<td align="center">11</td>
+<td align="center">0000</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">C0</td>
+<td align="center">GOTO AR</td>
 </tr>
 <tr>
-<td>15</td>
-<td>JMPZ</td>
-<td>11</td>
-<td>0001</td>
-<td>0</td>
-<td>0</td>
-<td></td>
-<td>C4</td>
-<td>IF(Z &#x3D;&#x3D; 1) GOTO AR</td>
+<td align="center">15</td>
+<td align="center">JMPZ</td>
+<td align="center">11</td>
+<td align="center">0001</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">C4</td>
+<td align="center">IF(Z &#x3D;&#x3D; 1) GOTO AR</td>
 </tr>
 <tr>
-<td>16</td>
-<td>JPNZ</td>
-<td>11</td>
-<td>0010</td>
-<td>0</td>
-<td>0</td>
-<td></td>
-<td>C8</td>
-<td>IF(Z &#x3D;&#x3D; 0) GOTO AR</td>
+<td align="center">16</td>
+<td align="center">JPNZ</td>
+<td align="center">11</td>
+<td align="center">0010</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">C8</td>
+<td align="center">IF(Z &#x3D;&#x3D; 0) GOTO AR</td>
+</tr>
+</tbody></table>
+<h2 id="CU-控制单元"><a href="#CU-控制单元" class="headerlink" title="CU 控制单元"></a>CU 控制单元</h2><p>CU 控制单元译码</p>
+<table>
+<thead>
+<tr>
+<th align="center">指令</th>
+<th align="center">ARwrite</th>
+<th align="center">AR</th>
+<th align="center">RegDst</th>
+<th align="center">RegWrite</th>
+<th align="center">RegData</th>
+<th align="center">MemWrite</th>
+<th align="center">ALU_OP</th>
+<th align="center">NPC_OP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">NOP</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">x</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1111</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">MOVAC</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0000</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">MOVR</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0001</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">ADD</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0010</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">SUB</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0011</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">INAC</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0100</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">CLAC</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0101</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">AND</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0110</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">OR</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0111</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">XOR</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1000</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">NOT</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1001</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">LDAC</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1111</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">STAC</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">x</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1111</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">MOVT</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">x</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1111</td>
+<td align="center">00</td>
+</tr>
+<tr>
+<td align="center">JUMP</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">x</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1111</td>
+<td align="center">01</td>
+</tr>
+<tr>
+<td align="center">JMPZ</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">x</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1111</td>
+<td align="center">10</td>
+</tr>
+<tr>
+<td align="center">JPNZ</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">x</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1111</td>
+<td align="center">11</td>
+</tr>
+</tbody></table>
+<p><em>注意：x表示任意值均可（此时该控制信号无效）。</em></p>
+<h2 id="ALU-控制单元"><a href="#ALU-控制单元" class="headerlink" title="ALU 控制单元"></a>ALU 控制单元</h2><p>ALU 控制单元译码</p>
+<table>
+<thead>
+<tr>
+<th align="center">指令</th>
+<th align="center">ALU_OP</th>
+<th align="center">Cin</th>
+<th align="center">S6</th>
+<th align="center">S5</th>
+<th align="center">S4</th>
+<th align="center">S3</th>
+<th align="center">S2</th>
+<th align="center">S1</th>
+<th align="center">S0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">MOVAC</td>
+<td align="center">0000</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">MOVR</td>
+<td align="center">0001</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">ADD</td>
+<td align="center">0010</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">SUB</td>
+<td align="center">0011</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">INAC</td>
+<td align="center">0100</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">CLAC</td>
+<td align="center">0101</td>
+<td align="center">x</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">AND</td>
+<td align="center">0110</td>
+<td align="center">x</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">OR</td>
+<td align="center">0111</td>
+<td align="center">x</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">XOR</td>
+<td align="center">1000</td>
+<td align="center">x</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">NOT</td>
+<td align="center">1001</td>
+<td align="center">x</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">NOP</td>
+<td align="center">1111</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+</tr>
+</tbody></table>
+<p><em>注意：x表示任意值均可（此时该控制信号无效）。</em></p>
+<h2 id="NPC-控制单元"><a href="#NPC-控制单元" class="headerlink" title="NPC 控制单元"></a>NPC 控制单元</h2><table>
+<thead>
+<tr>
+<th align="center">NPC_OP</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">00</td>
+<td align="center">PC + 1</td>
+</tr>
+<tr>
+<td align="center">01</td>
+<td align="center">AR</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">IF(Z&#x3D;&#x3D;1) AR</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">IF(Z&#x3D;&#x3D;0) AR</td>
 </tr>
 </tbody></table>
 
