@@ -4,19 +4,27 @@
   <meta charset="utf-8">
   
   
-  <title>Logisim模拟8位CPU | Hexo</title>
+  <title>使用Logisim模拟8位CPU | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="指令设计基本内容CPU架构：寄存器：AC, R，指令字长8bit。 RR类型指令(寄存器-寄存器)	MOVR、MOVAC、ADD、SUB、INAC、CLAC、AND、OR、XOR、NOT（单字指令） RS类型指令(寄存器-存储器)	LDAC（装入字）、STAC（存储字）（三字指令） J类型指令	JUMP、JMPZ、JPNZ（三字指令） O类型指令（其他指令）	NOP（单字指令） 译码设计   SE">
+  <meta name="description" content="作者：SuiyueYoung上次修改日期：2024-7-23 1:24  引言作为一名计算机科学与技术专业的大二学生，我在学习计算机组成原理的过程中，对计算机的运行过程产生了浓厚的兴趣。为了更深入地理解计算机的工作机制，我计划亲自动手设计并实现一个CPU。我希望能够在内存中写入机器码指令，并运行这些程序。 尽管网上有一些相关的资料，但大多不够详细，因此我决定在完成这个项目后，撰写一篇详细的文章，以">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Logisim模拟8位CPU">
-<meta property="og:url" content="http://example.com/2024/06/14/Emulating_8-bit_CPU_with_Logisim/index.html">
+<meta property="og:title" content="使用Logisim模拟8位CPU">
+<meta property="og:url" content="http://example.com/2024/06/14/Emulate8-bitCPUWithLogisim/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="指令设计基本内容CPU架构：寄存器：AC, R，指令字长8bit。 RR类型指令(寄存器-寄存器)	MOVR、MOVAC、ADD、SUB、INAC、CLAC、AND、OR、XOR、NOT（单字指令） RS类型指令(寄存器-存储器)	LDAC（装入字）、STAC（存储字）（三字指令） J类型指令	JUMP、JMPZ、JPNZ（三字指令） O类型指令（其他指令）	NOP（单字指令） 译码设计   SE">
+<meta property="og:description" content="作者：SuiyueYoung上次修改日期：2024-7-23 1:24  引言作为一名计算机科学与技术专业的大二学生，我在学习计算机组成原理的过程中，对计算机的运行过程产生了浓厚的兴趣。为了更深入地理解计算机的工作机制，我计划亲自动手设计并实现一个CPU。我希望能够在内存中写入机器码指令，并运行这些程序。 尽管网上有一些相关的资料，但大多不够详细，因此我决定在完成这个项目后，撰写一篇详细的文章，以">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/Emulate8-bitCPUWithLogisim/CPU.png">
+<meta property="og:image" content="http://example.com/images/Emulate8-bitCPUWithLogisim/CU.png">
+<meta property="og:image" content="http://example.com/images/Emulate8-bitCPUWithLogisim/ALU.png">
+<meta property="og:image" content="http://example.com/images/Emulate8-bitCPUWithLogisim/ALU_OP_Decoder.png">
+<meta property="og:image" content="http://example.com/images/Emulate8-bitCPUWithLogisim/NPC.png">
+<meta property="og:image" content="http://example.com/images/Emulate8-bitCPUWithLogisim/Regs.png">
+<meta property="og:image" content="http://example.com/images/Emulate8-bitCPUWithLogisim/ARG.png">
 <meta property="article:published_time" content="2024-06-14T10:58:17.000Z">
-<meta property="article:modified_time" content="2024-06-14T15:29:47.052Z">
+<meta property="article:modified_time" content="2024-07-23T07:34:15.467Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Emulate8-bitCPUWithLogisim/CPU.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -71,9 +79,9 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Emulating_8-bit_CPU_with_Logisim" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-Emulate8-bitCPUWithLogisim" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2024/06/14/Emulating_8-bit_CPU_with_Logisim/" class="article-date">
+    <a href="/2024/06/14/Emulate8-bitCPUWithLogisim/" class="article-date">
   <time class="dt-published" datetime="2024-06-14T10:58:17.000Z" itemprop="datePublished">2024-06-14</time>
 </a>
     
@@ -85,7 +93,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      Logisim模拟8位CPU
+      使用Logisim模拟8位CPU
     </h1>
   
 
@@ -93,16 +101,51 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="指令设计"><a href="#指令设计" class="headerlink" title="指令设计"></a>指令设计</h1><h2 id="基本内容"><a href="#基本内容" class="headerlink" title="基本内容"></a>基本内容</h2><p>CPU架构：寄存器：AC, R，指令字长8bit。</p>
-<p>RR类型指令(寄存器-寄存器)	MOVR、MOVAC、ADD、SUB、INAC、CLAC、AND、OR、XOR、NOT（单字指令）</p>
-<p>RS类型指令(寄存器-存储器)	LDAC（装入字）、STAC（存储字）（三字指令）</p>
-<p>J类型指令	JUMP、JMPZ、JPNZ（三字指令）</p>
-<p>O类型指令（其他指令）	NOP（单字指令）</p>
-<h2 id="译码设计"><a href="#译码设计" class="headerlink" title="译码设计"></a>译码设计</h2><table>
+        <p>作者：SuiyueYoung<br><br>上次修改日期：2024-7-23 1:24</p>
+<hr>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>作为一名计算机科学与技术专业的大二学生，我在学习计算机组成原理的过程中，对计算机的运行过程产生了浓厚的兴趣。为了更深入地理解计算机的工作机制，我计划亲自动手设计并实现一个CPU。我希望能够在内存中写入机器码指令，并运行这些程序。</p>
+<p>尽管网上有一些相关的资料，但大多不够详细，因此我决定在完成这个项目后，撰写一篇详细的文章，以供其他同学参考。</p>
+<p>软件环境：logisim-win-2.7.1</p>
+<h1 id="1-CPU设计"><a href="#1-CPU设计" class="headerlink" title="1 CPU设计"></a>1 CPU设计</h1><h2 id="1-1-CPU架构"><a href="#1-1-CPU架构" class="headerlink" title="1.1 CPU架构"></a>1.1 CPU架构</h2><p>CPU 架构设计如下：</p>
+<ul>
+<li>寄存器: 两个通用寄存器AC, R; PC 程序寄存器; IR 指令寄存器; AR 地址寄存器。</li>
+<li>机器字长：8bit。</li>
+<li>地址字长：16bit。</li>
+<li>数据字长：8bit。</li>
+<li>指令字长：8bit。</li>
+<li>地址生成方式：AR &#x3D; AC &lt;&lt; 8 + R。</li>
+</ul>
+<h2 id="1-2-指令设计"><a href="#1-2-指令设计" class="headerlink" title="1.2 指令设计"></a>1.2 指令设计</h2><h3 id="1-2-1-指令类型"><a href="#1-2-1-指令类型" class="headerlink" title="1.2.1 指令类型"></a>1.2.1 指令类型</h3><p>本项目总共实现 16 条指令，指令类型如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">TYPE</th>
+<th align="center">INSTRUCTION</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">RR类型指令(寄存器-寄存器)</td>
+<td align="center">MOVR、MOVAC、ADD、SUB、INAC、CLAC、AND、OR、XOR、NOT</td>
+</tr>
+<tr>
+<td align="center">RS类型指令(寄存器-存储器)</td>
+<td align="center">LDAC(装入字)、STAC(存储字)</td>
+</tr>
+<tr>
+<td align="center">J类型指令(跳转指令)</td>
+<td align="center">JUMP、JMPZ、JPNZ</td>
+</tr>
+<tr>
+<td align="center">O类型指令(其他指令)</td>
+<td align="center">NOP</td>
+</tr>
+</tbody></table>
+<h3 id="1-2-2-指令格式"><a href="#1-2-2-指令格式" class="headerlink" title="1.2.2 指令格式"></a>1.2.2 指令格式</h3><p>在MIPS（Microprocessor without Interlocked Pipeline Stages）架构中，单周期指令设计是一种简单但有效的方式，用于理解基本的计算机处理器的操作。在单周期处理器中，每条指令在一个时钟周期内完成。这种设计通常用于教学和简单的处理器设计，因为它的实现相对简单，尽管在现代高性能处理器中通常采用流水线和多周期设计来提高效率<strong>但本项目仅采用单周期指令设计。</strong>指令格式设计如下：</p>
+<table>
 <thead>
 <tr>
 <th align="center">SEQUENCE</th>
-<th align="center">COMMAND</th>
+<th align="center">INSTRUCTION</th>
 <th align="center">TYPE[7:6]</th>
 <th align="center">OP[5:2]</th>
 <th align="center">REVERSE[1]</th>
@@ -119,7 +162,7 @@
 <td align="center">0</td>
 <td align="center">0</td>
 <td align="center">00</td>
-<td align="center">空操作</td>
+<td align="center">NO OPERATION</td>
 </tr>
 <tr>
 <td align="center">1</td>
@@ -282,7 +325,17 @@
 <td align="center">IF(Z &#x3D;&#x3D; 0) GOTO AR</td>
 </tr>
 </tbody></table>
-<h2 id="CU-控制单元"><a href="#CU-控制单元" class="headerlink" title="CU 控制单元"></a>CU 控制单元</h2><p>CU 控制单元译码</p>
+<p><em>已知指令长度为 8bit，对上表解释如下：</em></p>
+<ul>
+<li><em>SEQUENCE 为序号。</em></li>
+<li><em><strong>INSTRUCTION: 为指令。</strong></em></li>
+<li><em><strong>TYPE: 为指令类型占据指令高两位。</strong></em></li>
+<li><em><strong>OP: 为操作码，占据指令第 3 位到第 6 位。</strong></em></li>
+<li><em><strong>REVERSE[1], REVERSE[0]: 做指令扩展，分别占据第 2 位和第 1 位。</strong></em></li>
+<li><em>HEX: 为指令转化为十六进制格式。</em></li>
+<li><em><strong>FUNCTION: 为指令对应操作。</strong></em></li>
+</ul>
+<h2 id="1-3-控制单元设计"><a href="#1-3-控制单元设计" class="headerlink" title="1.3 控制单元设计"></a>1.3 控制单元设计</h2><h3 id="1-3-1-CU-控制单元"><a href="#1-3-1-CU-控制单元" class="headerlink" title="1.3.1 CU 控制单元"></a>1.3.1 CU 控制单元</h3><p>作为整个 CPU 的控制中心，CU 控制单元会将 IR 寄存器存储的指令(Instruction)取出的同时进行译码操作，在一个时钟周期内控制CPU部件运行。CU 控制单元译码设计如下：</p>
 <table>
 <thead>
 <tr>
@@ -485,8 +538,19 @@
 <td align="center">11</td>
 </tr>
 </tbody></table>
+<p><em>对上表的解释如下：</em></p>
+<ul>
+<li><em>ARwrite: 控制 AR 寄存器写操作，ARwtie为 1 时，AR寄存器可被写入。</em></li>
+<li>*AR: *</li>
+<li><em>RegDest: 选择通用寄存器操作，为 0 时选择 AC 寄存器，为 1 时选择 R 寄存器。</em></li>
+<li><em>RegWrite: 控制通用寄存器写操作，RegWrite为 1 时，通用寄存器可被写入。</em></li>
+<li><em>RegData: 控制寄存器读取数据来源为 0 时选择数据来源为内存，为 1 时选择数据来源为寄存器。</em></li>
+<li><em>MemWRrite: 内存读写控制线，为 0 时从内存读数据，为 1 时向内存写数据。</em></li>
+<li><em>ALU_OP: 编码当前时钟周期 ALU 操作。</em></li>
+<li><em>NPC_OP: 编码下一个时钟周期 PC 的操作。</em></li>
+</ul>
 <p><em>注意：x表示任意值均可（此时该控制信号无效）。</em></p>
-<h2 id="ALU-控制单元"><a href="#ALU-控制单元" class="headerlink" title="ALU 控制单元"></a>ALU 控制单元</h2><p>ALU 控制单元译码</p>
+<h3 id="1-3-2-ALU-控制单元"><a href="#1-3-2-ALU-控制单元" class="headerlink" title="1.3.2 ALU 控制单元"></a>1.3.2 ALU 控制单元</h3><p>本项目的 ALU 仅能进行简单算数和逻辑运算，并未设计乘法和除法操作。但是读者可以自行手搓机器码，用加减法的方式实现乘法和除法操作。ALU控制单元可将 CU 控制单元传入的 4bit 指令进行译码后在同一时钟周期控制 ALU 相关操作。ALU 控制单元译码如下：</p>
 <table>
 <thead>
 <tr>
@@ -635,12 +699,26 @@
 <td align="center">x</td>
 </tr>
 </tbody></table>
-<p><em>注意：x表示任意值均可（此时该控制信号无效）。</em></p>
-<h2 id="NPC-控制单元"><a href="#NPC-控制单元" class="headerlink" title="NPC 控制单元"></a>NPC 控制单元</h2><table>
+<p><em>对上表的解释如下：</em></p>
+<ul>
+<li><em>Cin: 如果 Cin 为 1 (全加器最低位会置为 1) 则加法器会将其结果加一。</em></li>
+<li><em>S1, S0: 对数据的选择。00为 (AC), 01 为 ~(AC), 10 为 00, 11 为 FF。</em></li>
+<li><em>S3, S2: 对数据的选择。00为 (R), 01 为 ~(R), 10 为 00, 11 为 FF。</em></li>
+<li><em>S5, S4: 对与、或、异或、取反操作的选择。00 选择与操作，01 选择或操作，10 选择异或操作，11 选择取反操作。</em></li>
+<li><em>S6: 选择输出数据，为 0 选择算数运算数据，为 1 选择逻辑运算数据。</em></li>
+</ul>
+<p><em><strong>注意：</strong></em></p>
+<ol>
+<li><em>(X)代表取 X 寄存器数据，例如 ~(AC) 代表从 AC 寄存器中取数据并取反。</em></li>
+<li>此处与、或、异或、取反均按位执行与 C 语言中 <code>&amp;, |, ^, ~</code> 运算符含义相同。</li>
+<li><em>x 表示任意值均可（此时该控制信号无效）。</em></li>
+</ol>
+<h3 id="1-3-3-PC-控制单元"><a href="#1-3-3-PC-控制单元" class="headerlink" title="1.3.3 PC 控制单元"></a>1.3.3 PC 控制单元</h3><p>PC 由 NPC_OP, AR, Z共同控制。但具体功能可直接参考 NPC_OP。PC 控制译码如下：</p>
+<table>
 <thead>
 <tr>
 <th align="center">NPC_OP</th>
-<th align="center">功能</th>
+<th align="center">FUNCTION</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -660,11 +738,35 @@
 <td align="center">IF(Z&#x3D;&#x3D;0) AR</td>
 </tr>
 </tbody></table>
+<p><em>对上表的解释：功能就是解释。</em></p>
+<h1 id="2-Logisim-实现"><a href="#2-Logisim-实现" class="headerlink" title="2 Logisim 实现"></a>2 Logisim 实现</h1><h2 id="2-1-CPU-整体结构设计"><a href="#2-1-CPU-整体结构设计" class="headerlink" title="2.1 CPU 整体结构设计"></a>2.1 CPU 整体结构设计</h2><p>CPU 整体设计图如下：</p>
+<p><img src="/../images/Emulate8-bitCPUWithLogisim/CPU.png" alt="CPU 设计图"></p>
+<p>CPU运行过程解释如下：</p>
+<ol>
+<li>点击 rst 按钮，初始化所有寄存器和内存。</li>
+<li>在初始化完成后，PC 寄存器指向内存 0x0000 位置，我们的程序就从这里开始写入。</li>
+<li>在写入程序后，点击时钟产生一个时钟周期(点两下)，此后的过程均在这一个时钟周期内完成。</li>
+<li>IR (指令寄存器) 从 PC (程序计数器) 指向的地址读入数据，CU (控制单元) 对 IR 寄存器中的内容解码。在程序开始时，IR 寄存器的初始数据为 0x00，此时CU将其解释为空操作。随后，IR 寄存器中的 0x00 会被新读取的机器码覆盖。<strong>需要注意的是，这个过程并不是在 IR 寄存器读取内存中数据的同时 CU 控制单元对 IR 寄存器中内容解码。CU 控制端元总是对上一时刻 IR 寄存器中的内容进行解码。</strong></li>
+<li>CU 控制单元输出控制信号控制几乎所有原件的运行，可以说 CU 控制单元输出控制信号的同时所有部件接受信号并指向相应操作。</li>
+<li>最后 NPC 解析出下一时钟周期 PC 指向的位置，在第一次产生时钟周期的同时 PC 下一时钟周期的值就被写入到 PC 寄存器中。</li>
+</ol>
+<p><em>作者实现一个非常简单的程序，实现 $4\times8$ 然后将结果写入内存 0x0200 中。</em></p>
+<h2 id="2-2-其余部分设计"><a href="#2-2-其余部分设计" class="headerlink" title="2.2 其余部分设计"></a>2.2 其余部分设计</h2><p>本项目中 CU 控制单元, ALU 算数逻辑单元, NPC PC计算单元, Regs 寄存器组单元的设计都不困难。基本上都是根据运行逻辑处理电路设计，相信读者有实力理解其中的内容。 </p>
+<p>CU 控制单元设计图如下：<br><img src="/../images/Emulate8-bitCPUWithLogisim/CU.png" alt="CU 控制单元设计图"></p>
+<p>ALU 控制单元设计图如下：<br><img src="/../images/Emulate8-bitCPUWithLogisim/ALU.png" alt="ALU 控制单元设计图"></p>
+<p>ALU 操作码解码单元设计图如下:<br><img src="/../images/Emulate8-bitCPUWithLogisim/ALU_OP_Decoder.png" alt="ALU 操作码解码单元"></p>
+<p>NPC PC计算单元设计图如下:<br><img src="/../images/Emulate8-bitCPUWithLogisim/NPC.png" alt="NPC PC计算单元"></p>
+<p>Regs 寄存器组单元设计图如下:<br><img src="/../images/Emulate8-bitCPUWithLogisim/Regs.png" alt="Regs 寄存器组单元"></p>
+<p>ARG 内存地址计算单元设计图如下:<br><img src="/../images/Emulate8-bitCPUWithLogisim/ARG.png" alt="ARG 内存地址计算单元"></p>
+<h1 id="3-源代码获取"><a href="#3-源代码获取" class="headerlink" title="3 源代码获取"></a>3 源代码获取</h1><p><strong>郑重声明：未经作者允许禁止转载</strong><br><br><strong>郑重声明：未经作者允许禁止转载</strong><br><br><strong>郑重声明：未经作者允许禁止转载</strong><br></p>
+<p><strong>注意：源代码在</strong></p>
+<p>Logisim 源代码以及指令设计获取: <a target="_blank" rel="noopener" href="https://gitee.com/suiyueyoung/8bit-cpudesign">Gitee源代码获取</a>，<a target="_blank" rel="noopener" href="https://github.com/SuiyueYoung/8-bitCPUDesign">Github源代码获取</a></p>
+<p>原文地址: <a target="_blank" rel="noopener" href="https://suiyueyoung.github.io/2024/06/14/Emulating_8-bit_CPU_with_Logisim/">Logisim模拟8位CPU</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/06/14/Emulating_8-bit_CPU_with_Logisim/" data-id="clxelq5gw00002cw1db81g3iw" data-title="Logisim模拟8位CPU" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/06/14/Emulate8-bitCPUWithLogisim/" data-id="clyy40kk70000row16tzu56dv" data-title="使用Logisim模拟8位CPU" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -705,7 +807,7 @@
       <ul>
         
           <li>
-            <a href="/2024/06/14/Emulating_8-bit_CPU_with_Logisim/">Logisim模拟8位CPU</a>
+            <a href="/2024/06/14/Emulate8-bitCPUWithLogisim/">使用Logisim模拟8位CPU</a>
           </li>
         
       </ul>
